@@ -1,10 +1,61 @@
+import {Button, Input, Layout, Text} from '@ui-kitten/components';
 import React from 'react';
-import {Text, View} from 'react-native';
+import {ScrollView, useWindowDimensions} from 'react-native';
 
 export const LoginScreen = () => {
+  const {height} = useWindowDimensions();
   return (
-    <View>
-      <Text>LoginScreen</Text>
-    </View>
+    <Layout style={{flex: 1}}>
+      <ScrollView style={{marginHorizontal: 40}}>
+        <Layout style={{paddingTop: height * 0.35}}>
+          <Text category="h1">Ingresar</Text>
+          <Text category="p2">Por favor, ingrese para continuar</Text>
+        </Layout>
+        {/* Inputs */}
+        <Layout style={{marginTop: 20}}>
+          <Input
+            placeholder="Correo electrónico"
+            style={{marginBottom: 10}}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
+
+          <Input
+            placeholder="Contraseña"
+            style={{marginBottom: 20}}
+            secureTextEntry
+            autoCapitalize="none"
+          />
+
+          {/* Espacio */}
+          <Layout style={{height: 30}} />
+
+          {/* Boton */}
+          <Layout>
+            <Button
+              onPress={() => console.log('Boton')} /* appearance="ghost" */
+            >
+              Ingresar
+            </Button>
+          </Layout>
+
+          <Layout style={{height: 20}} />
+
+          {/* Información para crear cuenta */}
+          <Layout
+            style={{
+              alignItems: 'flex-end',
+              flexDirection: 'row',
+              justifyContent: 'center',
+            }}>
+            <Text>¿No tienes cuenta?</Text>
+            <Text status="primary" category="s1" onPress={() => {}}>
+              {' '}
+              Crea una
+            </Text>
+          </Layout>
+        </Layout>
+      </ScrollView>
+    </Layout>
   );
 };
