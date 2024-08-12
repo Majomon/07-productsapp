@@ -36,7 +36,7 @@ export const StackNavigator = () => {
         //Para hacer la animacion de navegacion entre paginas de manera global
         //cardStyleInterpolator: fadeAnimation,
       }}
-      initialRouteName="LoginScreen">
+      initialRouteName="LoadingScreen">
       <Stack.Screen
         options={{cardStyleInterpolator: fadeAnimation}}
         name="LoadingScreen"

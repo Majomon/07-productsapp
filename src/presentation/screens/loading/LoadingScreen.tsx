@@ -1,10 +1,10 @@
-import {Layout, Text} from '@ui-kitten/components';
+import {Layout, Spinner, Text} from '@ui-kitten/components';
 import React from 'react';
 
 export const LoadingScreen = () => {
   return (
-    <Layout>
-      <Text>H1</Text>
+    <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Spinner status="primary" size="large" />
     </Layout>
   );
 };
