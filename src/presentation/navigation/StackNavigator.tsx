@@ -13,7 +13,7 @@ export type RootStackParams = {
   LoginScreen: undefined;
   RegisterScreen: undefined;
   HomeScreen: undefined;
-  ProductScreen: {productId: number};
+  ProductScreen: {productId: string};
 };
 
 /* Para que use ese tipo de información */
