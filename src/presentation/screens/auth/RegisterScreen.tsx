@@ -1,15 +1,27 @@
 import {Button, Input, Layout, Text} from '@ui-kitten/components';
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView, useWindowDimensions} from 'react-native';
 import {MyIcon} from '../../components/ui/MyIcon';
 import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../../navigation/StackNavigator';
+import {authRegister} from '../../../actions/auth/auth';
 
 /* Para poder navegar */
 interface Props extends StackScreenProps<RootStackParams, 'RegisterScreen'> {}
 
 export const RegisterScreen = ({navigation}: Props) => {
   const {height} = useWindowDimensions();
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    fullName: '',
+  });
+
+  const registerForm = async () => {
+    const resp = await authRegister(form.email, form.password, form.fullName);
+    return resp;
+  };
+
   return (
     <Layout style={{flex: 1}}>
       <ScrollView style={{marginHorizontal: 40}}>
@@ -23,14 +35,18 @@ export const RegisterScreen = ({navigation}: Props) => {
             placeholder="Nombre completo"
             accessoryLeft={<MyIcon name="person-outline" />}
             style={{marginBottom: 10}}
+            value={form.fullName}
+            onChangeText={value => setForm({...form, fullName: value})}
           />
 
           <Input
-            accessoryLeft={<MyIcon name="email-outline" />}
             placeholder="Correo electrónico"
+            accessoryLeft={<MyIcon name="email-outline" />}
             style={{marginBottom: 10}}
             keyboardType="email-address"
             autoCapitalize="none"
+            value={form.email}
+            onChangeText={value => setForm({...form, email: value})}
           />
 
           <Input
@@ -39,6 +55,8 @@ export const RegisterScreen = ({navigation}: Props) => {
             style={{marginBottom: 20}}
             secureTextEntry
             autoCapitalize="none"
+            value={form.password}
+            onChangeText={value => setForm({...form, password: value})}
           />
 
           {/* Espacio */}
@@ -48,7 +66,7 @@ export const RegisterScreen = ({navigation}: Props) => {
           <Layout>
             <Button
               accessoryRight={<MyIcon name="arrow-forward-outline" white />}
-              onPress={() => console.log('Boton')} /* appearance="ghost" */
+              onPress={registerForm} /* appearance="ghost" */
             >
               Crear
             </Button>

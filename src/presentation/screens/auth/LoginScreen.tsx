@@ -1,11 +1,10 @@
-import {Button, Input, Layout, Text} from '@ui-kitten/components';
-import React, {useState} from 'react';
-import {Alert, ScrollView, useWindowDimensions} from 'react-native';
-import {MyIcon} from '../../components/ui/MyIcon';
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParams} from '../../navigation/StackNavigator';
-import {API_URL, STAGE} from '@env';
-import {useAuthStore} from '../../../store/auth/useAuthStore';
+import { StackScreenProps } from '@react-navigation/stack';
+import { Button, Input, Layout, Text } from '@ui-kitten/components';
+import React, { useState } from 'react';
+import { Alert, ScrollView, useWindowDimensions } from 'react-native';
+import { useAuthStore } from '../../../store/auth/useAuthStore';
+import { MyIcon } from '../../components/ui/MyIcon';
+import { RootStackParams } from '../../navigation/StackNavigator';
 
 /* Para poder navegar */
 interface Props extends StackScreenProps<RootStackParams, 'LoginScreen'> {}
