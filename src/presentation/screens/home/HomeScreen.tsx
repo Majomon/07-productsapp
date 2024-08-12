@@ -1,18 +1,22 @@
-import {Button, Icon, Layout, Text} from '@ui-kitten/components';
+import {useQuery} from '@tanstack/react-query';
+import {Layout, Text} from '@ui-kitten/components';
 import React from 'react';
-import {useAuthStore} from '../../../store/auth/useAuthStore';
 import {getProductsByPage} from '../../../actions/products/getProductsByPage.';
+import {useAuthStore} from '../../../store/auth/useAuthStore';
 
 export const HomeScreen = () => {
   const {logOut} = useAuthStore();
-  getProductsByPage(0);
+
+  /* Nortal/Tradicional */
+  const {isLoading, data: products = []} = useQuery({
+    queryKey: ['products', 'infinite'],
+    staleTime: 1000 * 60 * 60, // 1 hora
+    queryFn: () => getProductsByPage(0),
+  });
+
   return (
     <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>Home screen</Text>
-      {/*     <Icon name='facebook'/> */}
-      <Button accessoryLeft={<Icon name="log-out-outline" />} onPress={logOut}>
-        Cerrar sesion
-      </Button>
+      <Text>{JSON.stringify(products, null, 2)}</Text>
     </Layout>
   );
 };
