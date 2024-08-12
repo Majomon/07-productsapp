@@ -1,12 +1,12 @@
 import {useQuery} from '@tanstack/react-query';
-import {Layout, Text} from '@ui-kitten/components';
+import {Text} from '@ui-kitten/components';
 import React from 'react';
 import {getProductsByPage} from '../../../actions/products/getProductsByPage.';
-import {useAuthStore} from '../../../store/auth/useAuthStore';
+import {MainLayout} from '../../layouts/MainLayout';
 
 export const HomeScreen = () => {
-  const {logOut} = useAuthStore();
-
+  /*   const {logOut} = useAuthStore();
+   */
   /* Nortal/Tradicional */
   const {isLoading, data: products = []} = useQuery({
     queryKey: ['products', 'infinite'],
@@ -15,8 +15,10 @@ export const HomeScreen = () => {
   });
 
   return (
-    <Layout style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-      <Text>{JSON.stringify(products, null, 2)}</Text>
-    </Layout>
+    <MainLayout
+      title="TesloShop - Products"
+      subTitle="Aplicación administrativa">
+      <Text>Gola mundo</Text>
+    </MainLayout>
   );
 };
