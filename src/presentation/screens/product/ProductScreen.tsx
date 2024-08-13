@@ -1,22 +1,26 @@
-import {StackScreenProps} from '@react-navigation/stack';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {useRef} from 'react';
 import {
-  Button,
   ButtonGroup,
   Input,
   Layout,
+  Button,
   useTheme,
 } from '@ui-kitten/components';
 import {Formik} from 'formik';
-import {useRef} from 'react';
-import {ScrollView} from 'react-native';
-import {getProductById, updateCreateProduct} from '../../../actions/products';
-import {genders, sizes} from '../../../config/constants/constants';
-import {Product} from '../../../domain/entities/product';
-import {ProductImages} from '../../components/products/ProductImages';
-import {MyIcon} from '../../components/ui/MyIcon';
+
 import {MainLayout} from '../../layouts/MainLayout';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {StackScreenProps} from '@react-navigation/stack';
 import {RootStackParams} from '../../navigation/StackNavigator';
+
+import {getProductById, updateCreateProduct} from '../../../actions/products';
+
+import {ScrollView} from 'react-native-gesture-handler';
+import {Product} from '../../../domain/entities/product';
+import {MyIcon} from '../../components/ui/MyIcon';
+
+import {ProductImages} from '../../components/products/ProductImages';
+import {genders, sizes} from '../../../config/constants/constants';
 import {CameraAdapter} from '../../../config/adapters/camera-adapter';
 
 interface Props extends StackScreenProps<RootStackParams, 'ProductScreen'> {}
@@ -35,12 +39,12 @@ export const ProductScreen = ({route}: Props) => {
     mutationFn: (data: Product) =>
       updateCreateProduct({...data, id: productIdRef.current}),
     onSuccess(data: Product) {
-      console.log('Success');
       productIdRef.current = data.id; // creación
 
       /* Para revalidar, al destruirlas cuando vuelva a ingresar al producto volvera hacer el fetch/peticion */
       queryClient.invalidateQueries({queryKey: ['products', 'infinite']});
       queryClient.invalidateQueries({queryKey: ['product', data.id]});
+      // queryClient.setQueryData(['product',  data.id ], data);
     },
   });
 
@@ -49,9 +53,7 @@ export const ProductScreen = ({route}: Props) => {
   }
 
   return (
-    <Formik
-      initialValues={product}
-      onSubmit={values => mutation.mutate(values)}>
+    <Formik initialValues={product} onSubmit={mutation.mutate}>
       {({handleChange, handleSubmit, values, errors, setFieldValue}) => (
         <MainLayout
           title={values.title}
@@ -60,9 +62,9 @@ export const ProductScreen = ({route}: Props) => {
             const photos = await CameraAdapter.getPicturesFromLibrary();
             setFieldValue('images', [...values.images, ...photos]);
           }}
-          rightActionIcon="camera-outline">
+          rightActionIcon="image-outline">
           <ScrollView style={{flex: 1}}>
-            {/* Imagenes del producto */}
+            {/* Imágenes de el producto */}
             <Layout
               style={{
                 marginVertical: 10,
@@ -82,25 +84,25 @@ export const ProductScreen = ({route}: Props) => {
               />
               <Input
                 label="Slug"
-                style={{marginVertical: 5}}
                 value={values.slug}
                 onChangeText={handleChange('slug')}
+                style={{marginVertical: 5}}
               />
               <Input
                 label="Descripción"
+                value={values.description}
+                onChangeText={handleChange('description')}
                 multiline
                 numberOfLines={5}
                 style={{marginVertical: 5}}
-                value={values.description}
-                onChangeText={handleChange('description')}
               />
             </Layout>
 
             {/* Precio e inventario */}
             <Layout
               style={{
-                marginHorizontal: 15,
                 marginVertical: 5,
+                marginHorizontal: 15,
                 flexDirection: 'row',
                 gap: 10,
               }}>
@@ -123,11 +125,7 @@ export const ProductScreen = ({route}: Props) => {
 
             {/* Selectores */}
             <ButtonGroup
-              style={{
-                margin: 2,
-                marginTop: 20,
-                marginHorizontal: 15,
-              }}
+              style={{margin: 2, marginTop: 20, marginHorizontal: 15}}
               size="small"
               appearance="outline">
               {sizes.map(size => (
@@ -153,11 +151,7 @@ export const ProductScreen = ({route}: Props) => {
             </ButtonGroup>
 
             <ButtonGroup
-              style={{
-                margin: 2,
-                marginTop: 20,
-                marginHorizontal: 15,
-              }}
+              style={{margin: 2, marginTop: 20, marginHorizontal: 15}}
               size="small"
               appearance="outline">
               {genders.map(gender => (
@@ -175,7 +169,7 @@ export const ProductScreen = ({route}: Props) => {
               ))}
             </ButtonGroup>
 
-            {/* Botòn de guardar */}
+            {/* Botón de guardar */}
             <Button
               accessoryLeft={<MyIcon name="save-outline" white />}
               onPress={() => handleSubmit()}
@@ -184,8 +178,7 @@ export const ProductScreen = ({route}: Props) => {
               Guardar
             </Button>
 
-            {/* <Text>{JSON.stringify(values, null, 2)}</Text> */}
-            <Layout style={{height: 250}} />
+            <Layout style={{height: 200}} />
           </ScrollView>
         </MainLayout>
       )}
