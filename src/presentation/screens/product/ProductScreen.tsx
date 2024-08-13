@@ -38,7 +38,7 @@ export const ProductScreen = ({route}: Props) => {
   const mutation = useMutation({
     mutationFn: (data: Product) =>
       updateCreateProduct({...data, id: productIdRef.current}),
-    onSuccess(data: Product) {
+      onSuccess(data: Product) {
       productIdRef.current = data.id; // creación
 
       /* Para revalidar, al destruirlas cuando vuelva a ingresar al producto volvera hacer el fetch/peticion */
