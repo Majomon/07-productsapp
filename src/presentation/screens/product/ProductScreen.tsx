@@ -1,3 +1,5 @@
+import {StackScreenProps} from '@react-navigation/stack';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {
   Button,
   ButtonGroup,
@@ -6,18 +8,16 @@ import {
   Text,
   useTheme,
 } from '@ui-kitten/components';
-import {MainLayout} from '../../layouts/MainLayout';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
-import {StackScreenProps} from '@react-navigation/stack';
-import {RootStackParams} from '../../navigation/StackNavigator';
-import {getProductById} from '../../../actions/products/getProductById';
-import {useRef} from 'react';
-import {FlatList, ScrollView} from 'react-native';
-import {FadeInImage} from '../../components/ui/FadeInImage';
-import {Gender, Product, Size} from '../../../domain/entities/product';
-import {MyIcon} from '../../components/ui/MyIcon';
 import {Formik} from 'formik';
+import {useRef} from 'react';
+import {FlatList, Image, ScrollView} from 'react-native';
+import {getProductById} from '../../../actions/products/getProductById';
 import {updateCreateProduct} from '../../../actions/products/updateCreateProduct';
+import {Gender, Product, Size} from '../../../domain/entities/product';
+import {FadeInImage} from '../../components/ui/FadeInImage';
+import {MyIcon} from '../../components/ui/MyIcon';
+import {MainLayout} from '../../layouts/MainLayout';
+import {RootStackParams} from '../../navigation/StackNavigator';
 
 const sizes: Size[] = [Size.Xs, Size.S, Size.M, Size.L, Size.Xl, Size.Xxl];
 const genders: Gender[] = [Gender.Kid, Gender.Men, Gender.Women, Gender.Unisex];
@@ -59,19 +59,31 @@ export const ProductScreen = ({route}: Props) => {
         <MainLayout title={values.title} subTitle={`Precio: ${values.price}`}>
           <ScrollView style={{flex: 1}}>
             {/* Imagenes del producto */}
-            <Layout>
-              <FlatList
-                data={values.images}
-                keyExtractor={item => item}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                renderItem={({item}) => (
-                  <FadeInImage
-                    uri={item}
-                    style={{width: 300, height: 300, marginHorizontal: 7}}
-                  />
-                )}
-              />
+            <Layout
+              style={{
+                marginVertical: 10,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              {values.images.length === 0 ? (
+                <Image
+                  source={require('../../../assets/no-product-image.png')}
+                  style={{width: 300, height: 300}}
+                />
+              ) : (
+                <FlatList
+                  data={values.images}
+                  keyExtractor={item => item}
+                  horizontal
+                  showsHorizontalScrollIndicator={false}
+                  renderItem={({item}) => (
+                    <FadeInImage
+                      uri={item}
+                      style={{width: 300, height: 300, marginHorizontal: 7}}
+                    />
+                  )}
+                />
+              )}
             </Layout>
 
             {/* Formulario */}
