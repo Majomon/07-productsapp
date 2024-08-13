@@ -41,7 +41,7 @@ export const ProductScreen = ({route}: Props) => {
       console.log('Success');
       productIdRef.current = data.id; // creación
 
-      /* Para revalidar, al destruirlas cuando vuelva a ingresar al producto volvera hacer el fetch */
+      /* Para revalidar, al destruirlas cuando vuelva a ingresar al producto volvera hacer el fetch/peticion */
       queryClient.invalidateQueries({queryKey: ['products', 'infinite']});
       queryClient.invalidateQueries({queryKey: ['product', data.id]});
     },

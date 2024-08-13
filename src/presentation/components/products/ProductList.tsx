@@ -1,8 +1,9 @@
-import {Layout, List, Text} from '@ui-kitten/components';
-import {Product} from '../../../domain/entities/product';
-import {ProductCard} from './ProductCard';
+import {useQueryClient} from '@tanstack/react-query';
+import {Layout, List} from '@ui-kitten/components';
 import {useState} from 'react';
 import {RefreshControl} from 'react-native';
+import {Product} from '../../../domain/entities/product';
+import {ProductCard} from './ProductCard';
 
 interface Props {
   products: Product[];
@@ -11,10 +12,12 @@ interface Props {
 
 export const ProductList = ({products, fetchNextPage}: Props) => {
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const queryClient = useQueryClient();
 
   const onPullToRefresh = async () => {
     setIsRefreshing(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 200));
+    queryClient.invalidateQueries({queryKey: ['products', 'infinite']});
     setIsRefreshing(false);
   };
 
