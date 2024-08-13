@@ -1,5 +1,5 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import {StackScreenProps} from '@react-navigation/stack';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {
   Button,
   ButtonGroup,
@@ -7,16 +7,16 @@ import {
   Layout,
   useTheme,
 } from '@ui-kitten/components';
-import { Formik } from 'formik';
-import { useRef } from 'react';
-import { ScrollView } from 'react-native';
-import { getProductById, updateCreateProduct } from '../../../actions/products';
-import { genders, sizes } from '../../../config/constants/constants';
-import { Product } from '../../../domain/entities/product';
-import { ProductImages } from '../../components/products/ProductImages';
-import { MyIcon } from '../../components/ui/MyIcon';
-import { MainLayout } from '../../layouts/MainLayout';
-import { RootStackParams } from '../../navigation/StackNavigator';
+import {Formik} from 'formik';
+import {useRef} from 'react';
+import {ScrollView} from 'react-native';
+import {getProductById, updateCreateProduct} from '../../../actions/products';
+import {genders, sizes} from '../../../config/constants/constants';
+import {Product} from '../../../domain/entities/product';
+import {ProductImages} from '../../components/products/ProductImages';
+import {MyIcon} from '../../components/ui/MyIcon';
+import {MainLayout} from '../../layouts/MainLayout';
+import {RootStackParams} from '../../navigation/StackNavigator';
 
 interface Props extends StackScreenProps<RootStackParams, 'ProductScreen'> {}
 
@@ -52,7 +52,11 @@ export const ProductScreen = ({route}: Props) => {
       initialValues={product}
       onSubmit={values => mutation.mutate(values)}>
       {({handleChange, handleSubmit, values, errors, setFieldValue}) => (
-        <MainLayout title={values.title} subTitle={`Precio: ${values.price}`}>
+        <MainLayout
+          title={values.title}
+          subTitle={`Precio: ${values.price}`}
+          rightAction={() => console.log('Hola')}
+          rightActionIcon="camera-outline">
           <ScrollView style={{flex: 1}}>
             {/* Imagenes del producto */}
             <Layout
